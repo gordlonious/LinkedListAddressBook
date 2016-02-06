@@ -7,8 +7,8 @@
 #include "addressBookType.h"
 #include "extPersonType.h"
 
-//template<class Type>
-//addressBookType<Type>::addressBookType() { }
+template<class Type>
+addressBookType<Type>::addressBookType() { }
 
 template<class Type>
 addressBookType<Type>::addressBookType(unorderedLinkedList<extPersonType> listPerson) : unorderedLinkedList<Type>(listPerson) { }
