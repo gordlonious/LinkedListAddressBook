@@ -49,7 +49,15 @@ template<class Type>
 void addressBookType<Type>::testMethod(string s) { }
 
 template<class Type>
-void addressBookType<Type>::printPerson(string lastName) { }
+void addressBookType<Type>::printPerson(string lastName) {
+    extPersonType foundPerson = extPersonType();
+    int searchFail = -1;
+    bookSearch(lastName, foundPerson, searchFail);
+    if (searchFail != -1)
+      foundPerson.print();
+    else
+      cerr << "Could not find person to print" << endl;
+}
 //void addressBookType<extPersonType>::printPerson(string lastName) {
 //  extPersonType foundPerson = extPersonType();
 //  int searchFail = -1;
