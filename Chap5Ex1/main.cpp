@@ -48,6 +48,7 @@ void requestFullInfo(extPersonType &abt) {
 int main() {
   extPersonType entry1 = extPersonType();
   requestFullInfo(entry1);
+  //unorderedLinkedList<extPersonType> testList = unorderedLinkedList<extPersonType>();
   /*addressBookType<extPersonType> abtPersons = addressBookType<extPersonType>();
   abtPersons.Add(entry1);*/
   //abtPersons.printPerson("portzline");
