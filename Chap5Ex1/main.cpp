@@ -4,8 +4,12 @@
 #include <iostream>
 #include <fstream>
 #include "date.h"
+#include "linkedList.h"
 #include "addressBookType.h"
 using namespace std;
+
+//template<class Type>
+//static bool unorderedLinkedList<Type>::
 
 //one out param that is the person to be added to the address book
 void requestFullInfo(extPersonType &abt) {
@@ -48,6 +52,7 @@ void requestFullInfo(extPersonType &abt) {
 int main() {
   extPersonType entry1 = extPersonType();
   requestFullInfo(entry1);
+  //linkedListType<extPersonType> list;
   //unorderedLinkedList<extPersonType> testList = unorderedLinkedList<extPersonType>();
   /*addressBookType<extPersonType> abtPersons = addressBookType<extPersonType>();
   abtPersons.Add(entry1);*/

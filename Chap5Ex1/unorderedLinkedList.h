@@ -42,8 +42,8 @@ public:
       //    node, last points to the last node of the updated 
       //    list, and count is decremented by 1.
 
-    /*bool operator==(extPersonType &eptRight);
-    bool operator!=(extPersontType &eptRight);*/
+    friend bool operator==(extPersonType &eptLeft, extPersonType &eptRight);
+    /*bool operator!=(extPersontType &eptRight);*/
 };
 
 //template<class Type>

@@ -4,10 +4,11 @@
 #include "RelationType.h"
 #include "addressType.h"
 #include "extPersonType.h"
+#include "linkedList.h"
 #include "unorderedLinkedList.h"
 
 template<class Type>
-class addressBookType : unorderedLinkedList<Type> {
+class addressBookType : public linkedListType<Type> {
 public:
   addressBookType();
   addressBookType(unorderedLinkedList<extPersonType> listPerson);
@@ -51,5 +52,57 @@ bool addressBookType<Type>::operator==(extPersonType &ept) {
 template<class Type>
 bool addressBookType<Type>::operator!=(extPersonType &ept) {
   return !((*this) == ept);
+}
+
+template<class Type>
+addressBookType<Type>::addressBookType() : unorderedLinkedList<Type>() { }
+
+template<class Type>
+addressBookType<Type>::addressBookType(unorderedLinkedList<extPersonType> listPerson) : unorderedLinkedList<Type>(listPerson) { }
+
+//sequential name search (by last name)
+//returns the first occurence of the last name in the address book
+//2 out parameters
+//1st param: last name to search for
+//2nd param: extPersonType object reference to write to if the last name is found in the book
+//3rd param: error state reference to write to so the user knows whether or not to use 2nd out param
+//3rd param: -1 indicates person not found, 0 indicates found
+template<class Type>
+void addressBookType<Type>::bookSearch(std::string lastName, extPersonType &outPerson, int &failState) {
+  bool found = false;
+  nodeType<extPersonType> *current = first;
+
+  while (!found) {
+    if (current->info.getLastName() == lastName) {
+      found = true;
+      outPerson = current->info;
+      failState = 0;
+    }
+  }
+  if (!found)
+    failState = -1;
+  else
+    failState = 0;
+}
+template<class Type>
+void addressBookType<Type>::Add(extPersonType &ept) {
+  nodeType<extPersonType> newNode = nodeType<extPersonType>();
+  newNode.link = NULL;
+  last->link = *ept;
+  newNode.info = ept;
+  last = newNode;
+}
+template<class Type>
+void addressBookType<Type>::testMethod(string s) { }
+
+template<class Type>
+void addressBookType<Type>::printPerson(string lastName) {
+  extPersonType foundPerson = extPersonType();
+  int searchFail = -1;
+  bookSearch(lastName, foundPerson, searchFail);
+  if (searchFail != -1)
+    foundPerson.print();
+  else
+    cerr << "Could not find person to print" << endl;
 }
 #endif
