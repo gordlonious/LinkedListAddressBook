@@ -1,11 +1,9 @@
 #ifndef addressBookType_H
 #define addressBookType_H
 #include <string>
-#include "RelationType.h"
 #include "addressType.h"
 #include "extPersonType.h"
 #include "linkedList.h"
-#include "unorderedLinkedList.h"
 
 template<class Type>
 class addressBookType : public linkedListType<Type> {
@@ -24,14 +22,23 @@ public:
   bool operator==(extPersonType &ept);
   bool operator!=(extPersonType &ept);
 
+  //write to file
+  //stores data in text file for later use
+  void saveData();
+  //load from file
+  //reads from text file and allows for manipulation of stored data
+  void loadData();
+
 private:
-  //override attempts:
+  //overrides
   bool search(const Type& searchItem) const;
   void insertFirst(const Type& newItem);
   void insertLast(const Type& newItem);
   void deleteNode(const Type& deleteItem);
 };
 
+//Required from linkedListType
+//Not required by homework exercise
 template<class Type>
 bool addressBookType<Type>::search(const Type& searchItem) const { return true; }
 
@@ -93,6 +100,8 @@ void addressBookType<Type>::bookSearch(std::string lastName, extPersonType &outP
   else
     failState = 0;
 }
+//Add extPersonType
+//code taken from linkedListType and refactored to fit extPersonType info
 template<class Type>
 void addressBookType<Type>::Add(extPersonType &ept) {
   nodeType<Type> *newNode; //pointer to create the new node
@@ -119,6 +128,8 @@ void addressBookType<Type>::Add(extPersonType &ept) {
   }
 }
 
+//Delete from address book
+//code taken from linkedListType and refactored to fit extPersonType info
 template<class Type>
 void addressBookType<Type>::Delete(extPersonType &ept) {
   nodeType<Type> *current; //pointer to traverse the list

@@ -17,7 +17,7 @@ void requestFullInfo(extPersonType &abt) {
   string lName;
   cout << "First name:  ";
   cin >> fName;
-  cout << endl << "Last name:  ";
+  cout << "Last name:  ";
   cin >> lName;
   abt.setName(fName, lName);
   string phone;
@@ -25,7 +25,7 @@ void requestFullInfo(extPersonType &abt) {
   cin >> phone;
   abt.setPhone(phone);
   char contCin;
-  cout << endl << "Continue with address info?  ";
+  cout << "Continue with address info?  ";
   cin >> contCin;
   if (contCin == 'Y' || contCin == 'y') {
     addressType addr;
@@ -54,6 +54,7 @@ int main() {
   requestFullInfo(entry1);
   addressBookType<extPersonType> abt1;
   abt1.Add(entry1);
+  cout << endl << "printing entry..." << endl;
   abt1.printPerson("portzline");
   char stop;
   cin >> stop;
