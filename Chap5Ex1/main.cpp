@@ -53,11 +53,8 @@ int main() {
   extPersonType entry1 = extPersonType();
   requestFullInfo(entry1);
   addressBookType<extPersonType> abt1;
-  //linkedListType<extPersonType> list;
-  //unorderedLinkedList<extPersonType> testList = unorderedLinkedList<extPersonType>();
-  /*addressBookType<extPersonType> abtPersons = addressBookType<extPersonType>();
-  abtPersons.Add(entry1);*/
-  //abtPersons.printPerson("portzline");
+  abt1.Add(entry1);
+  abt1.printPerson("portzline");
   char stop;
   cin >> stop;
 }

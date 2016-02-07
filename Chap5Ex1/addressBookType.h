@@ -95,11 +95,85 @@ void addressBookType<Type>::bookSearch(std::string lastName, extPersonType &outP
 }
 template<class Type>
 void addressBookType<Type>::Add(extPersonType &ept) {
-  nodeType<extPersonType> newNode = nodeType<extPersonType>();
-  newNode.link = NULL;
-  last->link = *ept;
-  newNode.info = ept;
-  last = newNode;
+  nodeType<Type> *newNode; //pointer to create the new node
+
+  newNode = new nodeType<Type>; //create the new node
+
+  newNode->info = ept;  //store the new item in the node
+  newNode->link = NULL;     //set the link field of newNode
+  //to NULL
+
+  if (first == NULL)  //if the list is empty, newNode is 
+    //both the first and last node
+  {
+    first = newNode;
+    last = newNode;
+    count++;        //increment count
+  }
+  else    //the list is not empty, insert newNode after last
+  {
+    last->link = newNode; //insert newNode after last
+    last = newNode; //make last point to the actual 
+    //last node in the list
+    count++;        //increment count
+  }
+}
+
+template<class Type>
+void addressBookType<Type>::Delete(extPersonType &ept) {
+  nodeType<Type> *current; //pointer to traverse the list
+  nodeType<Type> *trailCurrent; //pointer just before current
+  bool found;
+
+  if (first == NULL)    //Case 1; the list is empty. 
+    cout << "Cannot delete from an empty list."
+    << endl;
+  else
+  {
+    if (first->info == ept) //Case 2 
+    {
+      current = first;
+      first = first->link;
+      count--;
+      if (first == NULL)    //the list has only one node
+        last = NULL;
+      delete current;
+    }
+    else //search the list for the node with the given info
+    {
+      found = false;
+      trailCurrent = first;  //set trailCurrent to point
+      //to the first node
+      current = first->link; //set current to point to 
+      //the second node
+
+      while (current != NULL && !found)
+      {
+        if (current->info != ept)
+        {
+          trailCurrent = current;
+          current = current->link;
+        }
+        else
+          found = true;
+      }//end while
+
+      if (found) //Case 3; if found, delete the node
+      {
+        trailCurrent->link = current->link;
+        count--;
+
+        if (last == current)   //node to be deleted 
+          //was the last node
+          last = trailCurrent; //update the value 
+        //of last
+        delete current;  //delete the node from the list
+      }
+      else
+        cout << "The item to be deleted is not in "
+        << "the list." << endl;
+    }//end else
+  }//end else
 }
 
 template<class Type>
