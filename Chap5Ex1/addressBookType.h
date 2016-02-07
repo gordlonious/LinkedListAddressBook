@@ -11,10 +11,9 @@ template<class Type>
 class addressBookType : public linkedListType<Type> {
 public:
   addressBookType();
-  addressBookType(unorderedLinkedList<extPersonType> listPerson);
+  addressBookType(linkedListType<extPersonType> listPerson);
   //last name search
   void bookSearch(std::string, extPersonType &outPerson, int &failState);
-  void testMethod(std::string);
   void addressBookType<extPersonType>::printPerson(std::string lastName);
   //void addressBookType::printPerson(int month);
   ////finds first entry for the date
@@ -55,10 +54,10 @@ bool addressBookType<Type>::operator!=(extPersonType &ept) {
 }
 
 template<class Type>
-addressBookType<Type>::addressBookType() : unorderedLinkedList<Type>() { }
+addressBookType<Type>::addressBookType() : linkedListType<Type>() { }
 
 template<class Type>
-addressBookType<Type>::addressBookType(unorderedLinkedList<extPersonType> listPerson) : unorderedLinkedList<Type>(listPerson) { }
+addressBookType<Type>::addressBookType(linkedListType<extPersonType> listPerson) : linkedListType<Type>(listPerson) { }
 
 //sequential name search (by last name)
 //returns the first occurence of the last name in the address book
@@ -92,8 +91,6 @@ void addressBookType<Type>::Add(extPersonType &ept) {
   newNode.info = ept;
   last = newNode;
 }
-template<class Type>
-void addressBookType<Type>::testMethod(string s) { }
 
 template<class Type>
 void addressBookType<Type>::printPerson(string lastName) {
