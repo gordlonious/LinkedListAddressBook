@@ -14,7 +14,7 @@ public:
   //addressBookType(linkedListType<extPersonType> listPerson);
   //last name search
   void bookSearch(std::string, extPersonType &outPerson, int &failState);
-  void addressBookType<extPersonType>::printPerson(std::string lastName);
+  void printPerson(std::string lastName);
 
   ////Add person to addressBook
   void Add(extPersonType &ept);
@@ -26,23 +26,23 @@ public:
 
 private:
   //override attempts:
-  bool search(const Type& searchItem);
+  bool search(const Type& searchItem) const;
   void insertFirst(const Type& newItem);
   void insertLast(const Type& newItem);
   void deleteNode(const Type& deleteItem);
 };
 
 template<class Type>
-bool addressBookType<Type>::search(const Type& searchItem) { }
+bool addressBookType<Type>::search(const Type& searchItem) const { return true; }
 
 template<class Type>
-void insertFirst(const Type& newItem) { }
+void addressBookType<Type>::insertFirst(const Type& newItem) { }
 
 template<class Type>
-void insertLast(const Type& newItem) { }
+void addressBookType<Type>::insertLast(const Type& newItem) { }
 
 template<class Type>
-void deleteNode(const Type& deleteItem) { }
+void addressBookType<Type>::deleteNode(const Type& deleteItem) { }
 
 template<class Type>
 bool addressBookType<Type>::operator==(extPersonType &ept) {

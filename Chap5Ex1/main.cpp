@@ -52,7 +52,7 @@ void requestFullInfo(extPersonType &abt) {
 int main() {
   extPersonType entry1 = extPersonType();
   requestFullInfo(entry1);
-  //addressBookType<extPersonType> abt1;
+  addressBookType<extPersonType> abt1;
   //linkedListType<extPersonType> list;
   //unorderedLinkedList<extPersonType> testList = unorderedLinkedList<extPersonType>();
   /*addressBookType<extPersonType> abtPersons = addressBookType<extPersonType>();
