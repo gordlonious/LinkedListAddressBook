@@ -49,13 +49,23 @@ void requestFullInfo(extPersonType &abt) {
   }
 }
 
+void requestEntries(addressBookType<extPersonType>& abt) {
+  bool stop = false;
+  while (!stop) {
+    extPersonType entry = extPersonType();
+    requestFullInfo(entry);
+    abt.Add(entry);
+    char another;
+    cout << "Add another entry? Y || N  " << endl;
+    cin >> another;
+    if (another != 'Y' && another != 'y')
+      stop = true;
+  }
+}
+
 int main() {
-  extPersonType entry1 = extPersonType();
-  requestFullInfo(entry1);
-  addressBookType<extPersonType> abt1;
-  abt1.Add(entry1);
+  
   cout << endl << "printing entry..." << endl;
-  abt1.printPerson("portzline");
   char stop;
   cin >> stop;
 }

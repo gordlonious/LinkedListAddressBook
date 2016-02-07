@@ -1,6 +1,8 @@
 #ifndef addressBookType_H
 #define addressBookType_H
 #include <string>
+#include <iostream>
+#include <fstream>
 #include "addressType.h"
 #include "extPersonType.h"
 #include "linkedList.h"
@@ -185,6 +187,18 @@ void addressBookType<Type>::Delete(extPersonType &ept) {
         << "the list." << endl;
     }//end else
   }//end else
+}
+
+template<class Type>
+void addressBookType<Type>::saveData() {
+  fstream book("addressBook.txt");
+  nodeType<extPersonType> *current = first;
+  while (current != NULL) {
+    string addr = current->info.Address.GetAddress();
+    addr.erase(addr.begin(), addr.end(), ' ', addr.end());
+    book << current->info.getFirstName() << " " << current->info.getLastName() << " "
+      << current->info.GetPhone() << " " << addr << endl;
+  }
 }
 
 template<class Type>
