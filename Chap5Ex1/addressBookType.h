@@ -11,21 +11,11 @@ template<class Type>
 class addressBookType : public linkedListType<Type> {
 public:
   addressBookType();
-  addressBookType(linkedListType<extPersonType> listPerson);
+  //addressBookType(linkedListType<extPersonType> listPerson);
   //last name search
   void bookSearch(std::string, extPersonType &outPerson, int &failState);
   void addressBookType<extPersonType>::printPerson(std::string lastName);
-  //void addressBookType::printPerson(int month);
-  ////finds first entry for the date
-  ////if not all params are set, searchDate will search based on just the month
-  ////searchDate returns a vector of indeces where the dates were at least partially matched
-  //void searchDate(vector<int> &indexVec, int month, int day = -1, int year = -1);
-  ////prints all entries between two dates
-  //void printPerson(dateType, dateType);
-  ////prints all entries with a certain relationship type
-  //void printPerson(RelationType);
-  ////print all entries between two names alphabetically
-  //void printPerson(std::string, std::string);
+
   ////Add person to addressBook
   void Add(extPersonType &ept);
   //delete person from addressBook
@@ -33,7 +23,27 @@ public:
   //operator overloads for convenience
   bool operator==(extPersonType &ept);
   bool operator!=(extPersonType &ept);
+
+private:
+  //override attempts:
+  bool search(const Type& searchItem);
+  void insertFirst(const Type& newItem);
+  void insertLast(const Type& newItem);
+  void deleteNode(const Type& deleteItem);
 };
+
+template<class Type>
+bool addressBookType<Type>::search(const Type& searchItem) { }
+
+template<class Type>
+void insertFirst(const Type& newItem) { }
+
+template<class Type>
+void insertLast(const Type& newItem) { }
+
+template<class Type>
+void deleteNode(const Type& deleteItem) { }
+
 template<class Type>
 bool addressBookType<Type>::operator==(extPersonType &ept) {
   bool equals = false;
@@ -56,8 +66,8 @@ bool addressBookType<Type>::operator!=(extPersonType &ept) {
 template<class Type>
 addressBookType<Type>::addressBookType() : linkedListType<Type>() { }
 
-template<class Type>
-addressBookType<Type>::addressBookType(linkedListType<extPersonType> listPerson) : linkedListType<Type>(listPerson) { }
+//template<class Type>
+//addressBookType<Type>::addressBookType(linkedListType<extPersonType> listPerson) : linkedListType<Type>(listPerson) { }
 
 //sequential name search (by last name)
 //returns the first occurence of the last name in the address book
