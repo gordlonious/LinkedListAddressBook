@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ctype.h>
 #include "addressType.h"
 #include "extPersonType.h"
 #include "linkedList.h"
@@ -189,17 +190,26 @@ void addressBookType<Type>::Delete(extPersonType &ept) {
   }//end else
 }
 
+//supplemental fstream readings
+//http://stackoverflow.com/questions/4806625/fstream-fails-to-create-new-file
 template<class Type>
 void addressBookType<Type>::saveData() {
-  fstream book("addressBook.txt");
+  fstream book;
+  if (book.is_open())
+    book.close();
+  //try opening..
+  book.open("addressBook.txt");
+  if (!book.is_open()) //if it couldn't be opened because it didn't exist
+    book.open("addressBook.txt", ios_base::out); // create a new one
   nodeType<extPersonType> *current = first;
   while (current != NULL) {
     string addr = current->info.getextAddress().GetAddress();
     //using some unfamiliar code::
     //http://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
-    addr.erase(std::remove(addr.begin(), addr.end(), 'a'), addr.end());
+    //addr.erase(std::remove_if(addr.begin(), addr.end(), std::isspace()), addr.end()); //not working with modern standards.. will process address parts seperately
     book << current->info.getFirstName() << " " << current->info.getLastName() << " "
       << current->info.GetPhone() << " " << addr << endl;
+    current = current->link;
   }
 }
 

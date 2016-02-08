@@ -18,7 +18,7 @@ void requestFullInfo(extPersonType &abt) {
   cin >> lName;
   abt.setName(fName, lName);
   string phone;
-  cout << "Phone number:  ";
+  cout << "Phone number (no spaces, only digits):  ";
   cin >> phone;
   abt.setPhone(phone);
   char contCin;
@@ -31,7 +31,7 @@ void requestFullInfo(extPersonType &abt) {
     cin >> city;
     addr.setCity(city);
     string strtAddr;
-    cout << endl << "Street address:  ";
+    cout << endl << "Please enter your address in 5 parts ";
     //getline acting up
     //activate stream exceptions
     ////ifstream stream;
@@ -47,10 +47,32 @@ void requestFullInfo(extPersonType &abt) {
 
     //Using code from internet! URL:  http://stackoverflow.com/questions/10553597/cin-and-getline-skipping-input
     //"If you're using getline after cin >> something, you need to flush the newline out of the buffer"
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    getline(cin, strtAddr);
-    bool test = cin.bad();
-    bool test2 = cin.fail();
+    //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    //getline(cin, strtAddr);
+    
+    //process address as 4 parts
+    //strt#, direction, strtName and suite or apartment #
+    string strtNum;
+    cout << endl << "Part 1 (street number):  ";
+    cin >> strtNum;
+    string direction;
+    cout << endl << "Part 2 (direction i.e. E, N, S, W):  ";
+    cin >> direction;
+    string strtName;
+    cout << endl << "Part 3 (street name i.e. smith or 7th):  ";
+    cin >> strtName;
+    string strtType;
+    cout << endl << "Part 4 (street type i.e. st, ave..):  ";
+    cin >> strtType;
+    string suite;
+    cout << endl << "Part 5 (suite or apartment number, may leave blank):  ";
+    cin >> suite;
+
+    //all 4 parts separated with !
+    //allows me to process the street address from the file more easily
+    strtAddr = strtNum + '!' + direction + '!' + strtName + '!' + strtType + '!' + suite; 
+
+    //set address in address object
     addr.setStreetAddress(strtAddr);
     string zip;
     cout << endl << "Zip code:  ";
@@ -88,6 +110,9 @@ int main() {
     ept.print();
   //save new entries
   abt1.saveData();
+
+  //stop the program
+  cout << "please input character a-z or 0-9 to end the program...";
   char stop;
   cin >> stop;
 }
