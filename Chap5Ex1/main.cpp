@@ -49,7 +49,7 @@ void requestFullInfo(extPersonType &abt) {
     //"If you're using getline after cin >> something, you need to flush the newline out of the buffer"
     //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     //getline(cin, strtAddr);
-    
+
     //process address as 4 parts
     //strt#, direction, strtName and suite or apartment #
     string strtNum;
@@ -70,7 +70,7 @@ void requestFullInfo(extPersonType &abt) {
 
     //all 4 parts separated with !
     //allows me to process the street address from the file more easily
-    strtAddr = strtNum + '!' + direction + '!' + strtName + '!' + strtType + '!' + suite; 
+    strtAddr = strtNum + '!' + direction + '!' + strtName + '!' + strtType + '!' + suite;
 
     //set address in address object
     addr.setStreetAddress(strtAddr);
@@ -100,7 +100,51 @@ void requestEntries(addressBookType<extPersonType>& abt) {
   }
 }
 
+void loadEntry(fstream &book, string (&outLine)[3]) {
+  string data[3];
+  int item = 0;
+  for (int i = 0; i < 3; i++) {
+    while (book.get() != ' ') {
+      if (book.get() == '!')
+        data[i][item] = ' ';
+      else
+        data[i][item] = book.get();
+
+      item++;
+    }
+  }
+  outLine[0] = data[0];
+  outLine[1] = data[1];
+  outLine[2] = data[2];
+}
+
+void loadEntries(addressBookType<extPersonType> &abt) {
+  fstream book;
+  book.open("addressBook.txt");
+  string data[3];
+  if (book.is_open()) {
+    loadEntry(book, data);
+  }
+  else
+    cerr << "loading data failed";
+
+  abt.Add(extPersonType(data[0], data[1], data[2]));
+}
+
+
+// MAIN
+// GORDON PORTZLINE
+// CS III
 int main() {
+  //load stored entries
+  char load;
+  cout << "Would you like to see the current address book? (Y or N):  ";
+  cin >> load;
+  addressBookType<extPersonType> abtCurrent = addressBookType<extPersonType>();
+  if (load == 'Y' || load == 'y') {
+    loadEntries(abtCurrent);
+  }
+
   //add new entries
   addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
   requestEntries(abt1);

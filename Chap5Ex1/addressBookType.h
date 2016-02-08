@@ -28,9 +28,6 @@ public:
   //write to file
   //stores data in text file for later use
   void saveData();
-  //load from file
-  //reads from text file and allows for manipulation of stored data
-  void loadData();
 
 private:
   //overrides

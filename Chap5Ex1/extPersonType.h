@@ -10,6 +10,7 @@
 class extPersonType : public personType {
 public:
   extPersonType();
+  extPersonType(std::string firstName, std::string lastName, std::string address);
   extPersonType(std::string relation, std::string phone, std::string firstName, std::string lastName);
   std::string GetPhone();
   std::string GetPhone(bool useTemp);

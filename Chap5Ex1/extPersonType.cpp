@@ -18,6 +18,10 @@ extPersonType::extPersonType()
   Address = addressType();
   birthDate = dateType();
 }
+extPersonType::extPersonType(string firstName, string lastName, string address) : personType(firstName, lastName) {
+  Address = addressType();
+  Address.setStreetAddress(address);
+}
 extPersonType::extPersonType(std::string relationParam, std::string phoneParam, std::string firstName, std::string lastName) :
                  personType(firstName, lastName)
 {
