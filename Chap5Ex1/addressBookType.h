@@ -194,8 +194,10 @@ void addressBookType<Type>::saveData() {
   fstream book("addressBook.txt");
   nodeType<extPersonType> *current = first;
   while (current != NULL) {
-    string addr = current->info.Address.GetAddress();
-    addr.erase(addr.begin(), addr.end(), ' ', addr.end());
+    string addr = current->info.getextAddress().GetAddress();
+    //using some unfamiliar code::
+    //http://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
+    addr.erase(std::remove(addr.begin(), addr.end(), 'a'), addr.end());
     book << current->info.getFirstName() << " " << current->info.getLastName() << " "
       << current->info.GetPhone() << " " << addr << endl;
   }

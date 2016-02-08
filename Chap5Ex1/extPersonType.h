@@ -15,6 +15,7 @@ public:
   std::string GetPhone(bool useTemp);
   dateType getDate();
   void setPhone(std::string phone, bool convert = false);
+  addressType getextAddress();
   void loadAddress(addressType);
   void loadBirthDate(dateType);
   void print();

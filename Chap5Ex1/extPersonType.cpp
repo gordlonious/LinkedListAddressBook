@@ -98,4 +98,7 @@ void extPersonType::setPhone(string phone, bool convert) {
   else
     stringPhone = phone;
 }
+addressType extPersonType::getextAddress() {
+  return Address;
+}
 #endif

@@ -79,11 +79,15 @@ void requestEntries(addressBookType<extPersonType>& abt) {
 }
 
 int main() {
+  //add new entries
   addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
   requestEntries(abt1);
+  //print new entries
   cout << endl << "printing entry..." << endl;
   for (extPersonType ept : abt1)
     ept.print();
+  //save new entries
+  abt1.saveData();
   char stop;
   cin >> stop;
 }
