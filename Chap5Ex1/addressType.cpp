@@ -70,21 +70,20 @@ void addressType::storeStringState(string stateParam) {
   }
 }
 void addressType::PrintFullAddress() {
-  if (strtAddress != "" && city != "" && zip[0] != -1 && state[0] != '!')
+  if (strtAddress != "" && city != "" && zipString != "" && stateString != "")
     cout << GetAddress() << " " << GetCity() << " " << stateToString() << " " << zipToString() << endl;
-  else if (strtAddress == "" && city != "" && zip[0] != -1 && state[0] != '!')
+  else if (strtAddress == "" && city != "" && zipString != "" && stateString != "")
     cout << "No street address found" << " " << GetCity() << " " << stateToString() << " " << zipToString() << endl;
-  else if (strtAddress == "" && city == "" && zip[0] != -1 && state[0] != '!')
+  else if (strtAddress == "" && city == "" && zipString != "" && stateString != "")
     cout << "No street address found" << " " << "No City found" << " " << stateToString() << " " << zipToString() << endl;
-  else if (strtAddress == "" && city == "" && zip[0] == -1 && state[0] != '!')
+  else if (strtAddress == "" && city == "" && zipString == "" && stateString != "")
     cout << "No street address found" << " " << "No City found" << " " << "No State found" << " " << zipToString() << endl;
-  else if (strtAddress == "" && city == "" && zip[0] == -1 && state[0] == '!')
+  else if (strtAddress == "" && city == "" && zipString == "" && stateString == "")
     cout << "No address information found" << endl;
   else
     cerr << "PrintFullAddress has failed " << endl;
 
 }
-//void addressType::Load(vector<extPersonType>* adrSet) { }
 void addressType::setCity(string cityParam) {
   city = cityParam;
 }
