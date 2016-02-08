@@ -35,7 +35,25 @@ void requestFullInfo(extPersonType &abt) {
     addr.setCity(city);
     string strtAddr;
     cout << endl << "Street address:  ";
-    cin >> strtAddr;
+    //getline acting up
+    //activate stream exceptions
+    ////ifstream stream;
+    ////cin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    //try{
+    //  cin.exceptions(ios_base::badbit | ios_base::failbit);
+    //  getline(cin, strtAddr);
+    //}
+    //catch (ios_base::failure &err) {
+    //  cerr << err.what() << endl;
+    //  throw;
+    //}
+
+    //Using code from internet! URL:  http://stackoverflow.com/questions/10553597/cin-and-getline-skipping-input
+    //"If you're using getline after cin >> something, you need to flush the newline out of the buffer"
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    getline(cin, strtAddr);
+    bool test = cin.bad();
+    bool test2 = cin.fail();
     addr.setStreetAddress(strtAddr);
     string zip;
     cout << endl << "Zip code:  ";
