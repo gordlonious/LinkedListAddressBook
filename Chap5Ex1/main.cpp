@@ -8,9 +8,6 @@
 #include "addressBookType.h"
 using namespace std;
 
-//template<class Type>
-//static bool unorderedLinkedList<Type>::
-
 //one out param that is the person to be added to the address book
 void requestFullInfo(extPersonType &abt) {
   string fName;
@@ -85,6 +82,8 @@ int main() {
   addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
   requestEntries(abt1);
   cout << endl << "printing entry..." << endl;
+  for (extPersonType ept : abt1)
+    ept.print();
   char stop;
   cin >> stop;
 }
