@@ -64,7 +64,8 @@ void requestEntries(addressBookType<extPersonType>& abt) {
 }
 
 int main() {
-  
+  addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
+  requestEntries(abt1);
   cout << endl << "printing entry..." << endl;
   char stop;
   cin >> stop;
