@@ -149,7 +149,7 @@ void loadEntry(fstream &book, string(&outLine)[3]) {
   outLine[2] = data[2];
 }
 
-void loadTest(fstream &book, std::string(&data)[3]) {
+void loadTest(fstream &book, vector<vector<string>> &data, int &entryCount) {
 
   //http://stackoverflow.com/questions/3482064/counting-the-number-of-lines-in-a-text-file
   //new lines will be skipped unless we stop it from happening :
@@ -160,10 +160,12 @@ void loadTest(fstream &book, std::string(&data)[3]) {
     std::istream_iterator<char>(book),
     std::istream_iterator<char>(),
     '\n');
+  entryCount = line_count;
   //reset
   book.clear();
   book.seekg(0, std::ios::beg);
 
+  vector<vector<string>> currentAB = vector<vector<string>>(500);  //make sure there is room for at least 500 entries
   for (unsigned int j = 0; j < line_count; j++) {
     string line;
     std::getline(book, line);
@@ -178,24 +180,37 @@ void loadTest(fstream &book, std::string(&data)[3]) {
       if (tokens[2][k] == '!')
         tokens[2][k] = ' ';
     }
-    //give caller the data (copy into simpler data type)
-    for (int h = 0; h < 3; h++)
-      data[h] = tokens[h];
+    //prepare data for caller
+    currentAB.insert(currentAB.begin(), tokens);
   }
+  data = currentAB;
 }
 
-void loadEntries(addressBookType<extPersonType> &abt) {
+void loadEntries(addressBookType<extPersonType> &abt, string &loadState) {
   fstream book;
   book.open("addressBook.txt");
-  string data[3];
+  int abEntryCount = -1;
+  vector<vector<string>> abData;
   if (book.is_open()) {
-    loadTest(book, data);
+    loadTest(book, abData, abEntryCount);
     //loadEntry(book, data);
   }
   else
     cerr << "loading data failed";
+  if (abEntryCount != 0) {
+    if (abEntryCount != -1) {
+      for (int i = 0; i < abEntryCount; i++)
+        abt.Add(extPersonType(abData[i][0], abData[i][1], abData[i][2]));
+    }
+    else {
+      for (unsigned int i = 0; i < abData.size(); i++) {
+        abt.Add(extPersonType(abData[i][0], abData[i][1], abData[i][2]));
 
-  abt.Add(extPersonType(data[0], data[1], data[2]));
+      }
+    }
+  }
+  else
+    loadState = "There are no addresses in the database";
 }
 
 
@@ -209,7 +224,8 @@ int main() {
   cin >> load;
   if (load == 'Y' || load == 'y') {
     addressBookType<extPersonType> abtCurrent = addressBookType<extPersonType>();
-    loadEntries(abtCurrent);
+    string dbState;
+    loadEntries(abtCurrent, dbState);
     for (extPersonType ept : abtCurrent)
       ept.print();
   }

@@ -71,7 +71,7 @@ void addressType::storeStringState(string stateParam) {
 }
 void addressType::printStrtAddress() {
   if (strtAddress != "")
-    cout << strtAddress;
+    cout << strtAddress << endl;
   else
     cerr << "strt address is not defined";
 }
