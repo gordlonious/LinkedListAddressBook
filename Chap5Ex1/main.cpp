@@ -25,9 +25,9 @@ void requestFullInfo(extPersonType &abt) {
   string phone;
   cout << "Phone number (no spaces, only digits):  ";
   cin >> phone;
-  abt.setPhone(phone);
+  abt.setPhone(phone, true);
   char contCin;
-  cout << "Continue with address info?  ";
+  cout << "Continue with address info? (Y or N):  ";
   cin >> contCin;
   if (contCin == 'Y' || contCin == 'y') {
     addressType addr;
@@ -35,6 +35,10 @@ void requestFullInfo(extPersonType &abt) {
     cout << endl << "City:  ";
     cin >> city;
     addr.setCity(city);
+    string st;
+    cout << endl << "State:  ";
+    cin >> st;
+    addr.setState(st);
     string strtAddr;
     cout << endl << "Please enter your address in 5 parts ";
     //getline acting up
@@ -83,10 +87,6 @@ void requestFullInfo(extPersonType &abt) {
     cout << endl << "Zip code:  ";
     cin >> zip;
     addr.setZip(zip);
-    string st;
-    cout << endl << "State:  ";
-    cin >> st;
-    addr.setState(st);
     abt.loadAddress(addr);
   }
 }
@@ -165,6 +165,7 @@ void loadTest(fstream &book, vector<vector<string>> &data, int &entryCount) {
   book.clear();
   book.seekg(0, std::ios::beg);
 
+  //note that this constructor provides room for at LEAST 500 entries -- push_back allocates memory for each entry added after 500
   vector<vector<string>> currentAB = vector<vector<string>>(500);  //make sure there is room for at least 500 entries
   for (unsigned int j = 0; j < line_count; j++) {
     string line;
