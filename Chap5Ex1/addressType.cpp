@@ -69,6 +69,12 @@ void addressType::storeStringState(string stateParam) {
       cerr << "func: storeStringState " << "err: Invalid State Abbreviation " << "obj: " << "addressType" << endl;
   }
 }
+void addressType::printStrtAddress() {
+  if (strtAddress != "")
+    cout << strtAddress;
+  else
+    cerr << "strt address is not defined";
+}
 void addressType::PrintFullAddress() {
   if (strtAddress != "" && city != "" && zipString != "" && stateString != "")
     cout << GetAddress() << " " << GetCity() << " " << stateToString() << " " << zipToString() << endl;

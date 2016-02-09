@@ -54,16 +54,16 @@ void addressBookType<Type>::deleteNode(const Type& deleteItem) { }
 template<class Type>
 bool addressBookType<Type>::operator==(extPersonType &ept) {
   bool equals = false;
-    //currently no way to set values of private variables after construction..
-    //proceeding with just name checks
-    int checks = 0;
-    if (getFirstName() == ept.getFirstName())
-      checks++;
-    if (getLastName() == ept.getLastName())
-      checks++;
-    if (checks == 2)
-      equals = true;
-    return equals;
+  //currently no way to set values of private variables after construction..
+  //proceeding with just name checks
+  int checks = 0;
+  if (getFirstName() == ept.getFirstName())
+    checks++;
+  if (getLastName() == ept.getLastName())
+    checks++;
+  if (checks == 2)
+    equals = true;
+  return equals;
 }
 template<class Type>
 bool addressBookType<Type>::operator!=(extPersonType &ept) {
@@ -192,20 +192,23 @@ void addressBookType<Type>::Delete(extPersonType &ept) {
 template<class Type>
 void addressBookType<Type>::saveData() {
   fstream book;
-  if (book.is_open())
-    book.close();
-  //try opening..
+  bool exists = false;
+  //close in case open elsewhere in unwanted format
+  //check for existance of file
   book.open("addressBook.txt");
-  if (!book.is_open()) //if it couldn't be opened because it didn't exist
+  if (book.is_open()) {
+    book.close();
+    exists = true;
+  }
+  if (!exists) //if it couldn't be opened because it didn't exist
     book.open("addressBook.txt", ios_base::out); // create a new one
+  else
+    book.open("addressBook.txt", ios_base::app);
   nodeType<extPersonType> *current = first;
+  //write newly added entries to disk
   while (current != NULL) {
     string addr = current->info.getextAddress().GetAddress();
-    //using some unfamiliar code::
-    //http://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
-    //addr.erase(std::remove_if(addr.begin(), addr.end(), std::isspace()), addr.end()); //not working with modern standards.. will process address parts seperately
-    book << current->info.getFirstName() << " " << current->info.getLastName() << " "
-      << current->info.GetPhone() << " " << addr << endl;
+    book << current->info.getFirstName() << " " << current->info.getLastName() << " " << " " << addr << endl;
     current = current->link;
   }
 }

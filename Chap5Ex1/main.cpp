@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <istream>
+#include <vector>
 #include "addressType.h"
 #include "extPersonType.h"
 #include <iostream>
@@ -7,6 +10,8 @@
 #include "linkedList.h"
 #include "addressBookType.h"
 using namespace std;
+
+fstream bookStream;
 
 //one out param that is the person to be added to the address book
 void requestFullInfo(extPersonType &abt) {
@@ -100,17 +105,43 @@ void requestEntries(addressBookType<extPersonType>& abt) {
   }
 }
 
-void loadEntry(fstream &book, string (&outLine)[3]) {
+void loadEntry(fstream &book, string(&outLine)[3]) {
   string data[3];
-  int item = 0;
-  for (int i = 0; i < 3; i++) {
-    while (book.get() != ' ') {
-      if (book.get() == '!')
-        data[i][item] = ' ';
-      else
-        data[i][item] = book.get();
+  //I DON'T KNOW MUCH ABOUT FILES
+  //http://stackoverflow.com/questions/3482064/counting-the-number-of-lines-in-a-text-file
+  //new lines will be skipped unless we stop it from happening :
+  book.unsetf(std::ios_base::skipws);
+  // count the newlines with an algorithm specialized for counting:
+  unsigned line_count = std::count(
+    std::istream_iterator<char>(book),
+    std::istream_iterator<char>(),
+    '\n');
+  for (unsigned int j = 0; j < line_count; j++) {
+    for (int i = 0; i < 3; i++) {
+      //cin.ignore();
+      string line;
+      std::getline(book, line);
+      //turn line into an array of strings
+      string buf; // Have a buffer string
+      stringstream ss(line); // Insert the string into a stream
 
-      item++;
+      vector<string> tokens; // Create vector to hold our words
+
+      while (ss >> buf)
+        tokens.push_back(buf);
+      //sort through each char
+      for (unsigned int k = 0; k < line.size(); k++) {
+        if (line[k] == ' ')
+          break;
+        if (line[k] == '!') {
+          string *item = &data[i];
+          (*item) += ' ';
+        }
+        else {
+          string *item = &data[i];
+          (*item) += line[k];
+        }
+      }
     }
   }
   outLine[0] = data[0];
@@ -118,12 +149,48 @@ void loadEntry(fstream &book, string (&outLine)[3]) {
   outLine[2] = data[2];
 }
 
+void loadTest(fstream &book, std::string(&data)[3]) {
+
+  //http://stackoverflow.com/questions/3482064/counting-the-number-of-lines-in-a-text-file
+  //new lines will be skipped unless we stop it from happening :
+  book.unsetf(std::ios_base::skipws);
+  // count the newlines with an algorithm specialized for counting:
+  // gportzline: then reset the file stream
+  unsigned line_count = std::count(
+    std::istream_iterator<char>(book),
+    std::istream_iterator<char>(),
+    '\n');
+  //reset
+  book.clear();
+  book.seekg(0, std::ios::beg);
+
+  for (unsigned int j = 0; j < line_count; j++) {
+    string line;
+    std::getline(book, line);
+    //split line into 3 data pieces -- fname, lname and address (everything that is stored so far)
+    string buf; // Have a buffer string
+    stringstream ss(line); // Insert the string into a stream
+    vector<string> tokens; // Create vector to hold our words
+    while (ss >> buf)
+      tokens.push_back(buf);
+    //make address data more readable
+    for (unsigned int k = 0; k < tokens[2].size(); k++) {
+      if (tokens[2][k] == '!')
+        tokens[2][k] = ' ';
+    }
+    //give caller the data (copy into simpler data type)
+    for (int h = 0; h < 3; h++)
+      data[h] = tokens[h];
+  }
+}
+
 void loadEntries(addressBookType<extPersonType> &abt) {
   fstream book;
   book.open("addressBook.txt");
   string data[3];
   if (book.is_open()) {
-    loadEntry(book, data);
+    loadTest(book, data);
+    //loadEntry(book, data);
   }
   else
     cerr << "loading data failed";
@@ -140,23 +207,30 @@ int main() {
   char load;
   cout << "Would you like to see the current address book? (Y or N):  ";
   cin >> load;
-  addressBookType<extPersonType> abtCurrent = addressBookType<extPersonType>();
   if (load == 'Y' || load == 'y') {
+    addressBookType<extPersonType> abtCurrent = addressBookType<extPersonType>();
     loadEntries(abtCurrent);
+    for (extPersonType ept : abtCurrent)
+      ept.print();
   }
 
-  //add new entries
-  addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
-  requestEntries(abt1);
-  //print new entries
-  cout << endl << "printing entry..." << endl;
-  for (extPersonType ept : abt1)
-    ept.print();
-  //save new entries
-  abt1.saveData();
+  char add;
+  cout << endl << "Would you like to add more contacts to the address book? (Y or N):  ";
+  cin >> add;
+  if (add == 'Y' || add == 'y') {
+    //add new entries
+    addressBookType<extPersonType> abt1 = addressBookType<extPersonType>();
+    requestEntries(abt1);
+    //print new entries
+    cout << endl << "printing entry..." << endl;
+    for (extPersonType ept : abt1)
+      ept.print();
+    //save new entries
+    abt1.saveData();
+  }
 
   //stop the program
-  cout << "please input character a-z or 0-9 to end the program...";
+  cout << endl << "please input character a-z or 0-9 to end the program...";
   char stop;
   cin >> stop;
 }

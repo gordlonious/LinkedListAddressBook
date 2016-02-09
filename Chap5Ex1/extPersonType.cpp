@@ -9,8 +9,8 @@
 #include "personType.h"
 using namespace std;
 
-extPersonType::extPersonType()  
-                : personType()
+extPersonType::extPersonType()
+: personType()
 {
   relation = RelationType::NoRelation;
   for (int i = 0; i < 10; i++)
@@ -21,9 +21,10 @@ extPersonType::extPersonType()
 extPersonType::extPersonType(string firstName, string lastName, string address) : personType(firstName, lastName) {
   Address = addressType();
   Address.setStreetAddress(address);
+  relation = RelationType::NoRelation;
 }
 extPersonType::extPersonType(std::string relationParam, std::string phoneParam, std::string firstName, std::string lastName) :
-                 personType(firstName, lastName)
+personType(firstName, lastName)
 {
   relation = RelationStringToEnum(relationParam);
   stringPhone = phoneParam;
@@ -71,7 +72,10 @@ void extPersonType::print() {
     << birthDate.getDay() << "." << birthDate.getYear();
   cout << " " << GetPhone(true) << endl;
   cout << "address: ";
-  Address.PrintFullAddress();
+  if (Address.GetCity() == "" || Address.GetState() == "")
+    Address.printStrtAddress();
+  else
+    Address.PrintFullAddress();
 }
 //method does everything as expected in debugging!
 //memory is somehow being overwritten???

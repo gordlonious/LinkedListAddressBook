@@ -15,6 +15,7 @@ public:
   void setZip(std::string, bool convert = false);
   void setState(std::string, bool convert = false);
   void setStreetAddress(std::string strtAddress);
+  void printStrtAddress();
   void PrintFullAddress();
   //i --  load from disk
   //void Load(vector<extPersonType>*);
